@@ -1,10 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import App from "./App";
+import "./index.css";
+import { store } from "./app/store";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    {/* Redux Provider for state management */}
+    <Provider store={store}>
+      {/* React DnD Provider for drag-and-drop functionality */}
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
+    </Provider>
+  </React.StrictMode>
+);
