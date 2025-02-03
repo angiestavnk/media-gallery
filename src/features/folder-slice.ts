@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { deleteMedia } from "./media-slice";
 
 export type MediaType = "image" | "video" | "gif";
 
@@ -63,35 +64,46 @@ const folderSlice = createSlice({
     updateFilters: (state, action: PayloadAction<MediaType[]>) => {
       state.filters.types = action.payload;
     },
-    moveMedia: (state, action: PayloadAction<{ targetFolderId: string; mediaIds?: string[] }>) => {
-      const { targetFolderId, mediaIds = state.selectedMediaIds } = action.payload;
-      
-      // Create a set for faster lookups
+    moveMedia: (
+      state,
+      action: PayloadAction<{ targetFolderId: string; mediaIds?: string[] }>
+    ) => {
+      const { targetFolderId, mediaIds = state.selectedMediaIds } =
+        action.payload;
+
       const mediaIdSet = new Set(mediaIds);
-      
-      // Remove from all folders
-      state.folders.forEach(folder => {
-        folder.mediaIds = folder.mediaIds.filter(id => !mediaIdSet.has(id));
+
+      state.folders.forEach((folder) => {
+        if (folder.id !== targetFolderId) {
+          folder.mediaIds = folder.mediaIds.filter((id) => !mediaIdSet.has(id));
+        }
       });
-    
-      // Add to target folder
-      const targetFolder = state.folders.find(f => f.id === targetFolderId);
+
+      const targetFolder = state.folders.find(
+        (folder) => folder.id === targetFolderId
+      );
       if (targetFolder) {
-        // Preserve existing items and add new ones
         const newMediaIds = [...targetFolder.mediaIds];
-        mediaIds.forEach(id => {
+        mediaIds.forEach((id) => {
           if (!newMediaIds.includes(id)) {
             newMediaIds.push(id);
           }
         });
         targetFolder.mediaIds = newMediaIds;
       }
-    
-      // Clear selection only if we moved selected items
-      if (mediaIds === state.selectedMediaIds) {
-        state.selectedMediaIds = [];
-      }
+      state.selectedMediaIds = [];
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(deleteMedia, (state, action) => {
+      const deletedId = action.payload;
+      state.folders.forEach((folder) => {
+        folder.mediaIds = folder.mediaIds.filter((id) => id !== deletedId);
+      });
+      state.selectedMediaIds = state.selectedMediaIds.filter(
+        (id) => id !== deletedId
+      );
+    });
   },
 });
 

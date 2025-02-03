@@ -5,6 +5,8 @@ export interface MediaItem {
   type: "image" | "video" | "gif";
   name: string;
   url: string;
+  width: number;
+  height: number;
 }
 
 interface MediaState {
@@ -27,7 +29,9 @@ const mediaSlice = createSlice({
     },
     renameMedia: (state, action: PayloadAction<{ id: string; newName: string }>) => {
       const media = state.media.find((item) => item.id === action.payload.id);
-      if (media) media.name = action.payload.newName;
+      if (media) {
+        media.name = action.payload.newName;
+      }
     },
   },
 });

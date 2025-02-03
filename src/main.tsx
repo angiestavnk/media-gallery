@@ -9,9 +9,7 @@ import { store } from "./app/store";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    {/* Redux Provider for state management */}
     <Provider store={store}>
-      {/* React DnD Provider for drag-and-drop functionality */}
       <DndProvider backend={HTML5Backend}>
         <App />
       </DndProvider>
