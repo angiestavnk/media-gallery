@@ -27,7 +27,7 @@ export const MainContent = () => {
       dispatch(
         moveMedia({
           targetFolderId: "root",
-          mediaIds: mediaItems.map(item => item.id),
+          mediaIds: mediaItems?.map(item => item.id),
         })
       );
     };
