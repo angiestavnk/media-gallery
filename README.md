@@ -1,4 +1,4 @@
-# Mesia Gallery
+# Media Gallery
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ Make sure you have the following installed:
 - In order to use this functionality, two providers wrap main.tsx - Redux Provider and DnD Provider.
 - Tailwind is used for styling.
 - The application is structured in such a way that the main functionality is divided into components, some functions are taken out into services, and the main functionality for working with data is divided into working with folders and working with files - `folder-slice.ts` and `media-slice.ts`.
-- This application allows you to filter data by type (video, image or gif) and filter it by name. It is possible to move files from one folder to another, rename and delete files. Also, with the help of the DnD library, you can implement drag and drop files from one folder to another.
+- This application allows you to filter data by type (video, image or gif) and filter it by name. It is possible to move files from one folder to another, rename and delete files. Also, with the help of the DnD library, you can drag and drop files from one folder to another.
 
 # Limitations
 
